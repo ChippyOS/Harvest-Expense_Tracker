@@ -38,6 +38,7 @@
   #expense-list {
     margin-top: 100px;
   }
+  
 
   .show {
     display: block;
@@ -50,5 +51,11 @@
   .empty-message {
     margin-top: 100px;
   }
+
+  #break-even {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
 
 
