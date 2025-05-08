@@ -9,6 +9,7 @@
     --light-pink: #ffadad;
     --dark-red: #850000;
     --light-green: #acd157;
+    --white: #f9f9f9;
   }
   
   body {
@@ -56,6 +57,17 @@
     text-align: center;
     margin-top: 100px;
   }
+
+  .expense-item {
+    box-sizing: border-box;
+    padding: 8px;
+    margin-bottom: 5px;
+    /* You can add more styling like background color, borders, etc. */
+    background-color: var(--white);
+    border-radius: 10px;
+    color: var(--farm-green);
+    margin: 5px;
+}
   
 
 
