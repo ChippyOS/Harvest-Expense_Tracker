@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character encoding and responsive viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to external stylesheet -->
     <link rel="stylesheet" href="styles.css" />
     <title>Harvest Math</title>
 </head>
@@ -10,8 +12,10 @@
     <main>
         <h1>Harvest Math</h1>
         <div class="container">
+            <!-- Expense input form section -->
             <h2>Enter Expense</h2>
             <form id="expense-form">
+                <!-- Form fields for expense details -->
                 <label for="expense-name">Expense Name:</label>
                 <input type="text" id="expense-name" required>
 
@@ -21,6 +25,7 @@
                 <label for="expense-date">Date:</label>
                 <input type="date" id="expense-date"required>
 
+                <!-- Dropdown for expense categories -->
                 <label for="expense-category">Category:</label>
                 <select id="expense-category" required>
                     <option value="">Select a category</option>
@@ -34,14 +39,17 @@
                 <button type="submit">Add Expense</button>
             </form>
 
+            <!-- Expense list display section -->
             <section id="expense-list">
                 <h2>Expense List</h2>
                 <div id="expense-items"></div>
+                <!-- Empty state message -->
                 <div id="empty-message" class="empty-message show">
                     <h2>Expense List is empty</h2>
                 </div>
             </section>
 
+            <!-- Break-even calculation section -->
             <section id="break-even">
                 <label for="bushels">Enter Bushel Amount:</label>
                 <input type="number" id="bushel-amount" min="0" required>
@@ -50,6 +58,7 @@
             </section>
         </div>
     </main>
+    <!-- Link to JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>
