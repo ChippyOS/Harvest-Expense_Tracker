@@ -54,10 +54,14 @@ function updateExpenseList() {
             deleteButton.textContent = 'Delete';
             deleteButton.className = 'delete-btn';
             deleteButton.addEventListener('click', () => {
-                // Remove expense from array
-                expenses.splice(index, 1);
-                // Update the display
-                updateExpenseList();
+
+                const confirmDelete = confirm('Are you sure you want to delete this expense?');
+                if (confirmDelete) {
+                    // Remove expense from array
+                    expenses.splice(index, 1);
+                    // Update the display
+                    updateExpenseList();
+                }
             });
             expenseItem.appendChild(deleteButton);
         });
