@@ -40,7 +40,7 @@ function updateExpenseList() {
     } else {
         emptyMessage.classList.remove('show');
         // Create and append expense items
-        expenses.forEach(expense => {
+        expenses.forEach((expense, index) => {
             const expenseItem = document.createElement('div');
             expenseItem.className = 'expense-item';
             expenseItem.textContent = `${expense.name} - $${expense.amount} - ${expense.date} - ${expense.category}`;
@@ -48,6 +48,19 @@ function updateExpenseList() {
             expenseItem.style.marginBottom = '5px';
             expenseItem.style.display = 'inline-block';
             expenseList.appendChild(expenseItem);
+
+            // Create delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.className = 'delete-btn';
+            deleteButton.addEventListener('click', () => {
+                // Remove expense from array
+                expenses.splice(index, 1);
+                // Update the display
+                updateExpenseList();
+            });
+            expenseItem.appendChild(deleteButton);
         });
     }
 }
+

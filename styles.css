@@ -77,4 +77,13 @@ h2 {
 }
   
 
+.delete-btn {
+    border: 1px solid var(--dark-red);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
 
+.delete-btn:hover {
+    background-color: var(--dark-red);
+}
