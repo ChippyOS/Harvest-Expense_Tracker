@@ -36,9 +36,11 @@ function updateExpenseList() {
 
     // Handle empty state
     if (expenses.length === 0) {
+        emptyMessage.classList.remove('hide');
         emptyMessage.classList.add('show');
     } else {
         emptyMessage.classList.remove('show');
+        emptyMessage.classList.add('hide');
         // Create and append expense items
         expenses.forEach((expense, index) => {
             const expenseItem = document.createElement('div');

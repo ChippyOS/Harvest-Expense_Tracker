@@ -33,12 +33,13 @@ h2 {
 /* Main container styles */
 .container {
     width: 90%;
-    height: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     border: 2px solid var(--light-grey);
     border-radius: 8px;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Expense list section spacing */
@@ -57,13 +58,13 @@ h2 {
 
 /* Empty state message styling */
 .empty-message {
-    margin-top: 100px;
+    margin-top: 400px;
 }
 
 /* Break-even section styling */
 #break-even {
     text-align: center;
-    margin-top: 100px;
+    margin-top: 500px;
 }
 
 /* Individual expense item styling */
