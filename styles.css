@@ -33,6 +33,7 @@ h2 {
 /* Main container styles */
 .container {
     width: 90%;
+    height: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;

@@ -68,3 +68,18 @@ function updateExpenseList() {
     }
 }
 
+// Function to calculate break-even price
+function calculateBreakEven() {
+    const totalExpenses = expenses.reduce((total, expense) => total + expense.amount, 0);
+    const bushels = parseFloat(bushelInput.value);
+
+    if (bushels > 0) {
+        const breakEvenPrice = totalExpenses / bushels;
+        breakEvenResult.textContent = `Break-even price per bushel: $${breakEvenPrice.toFixed(3)}`;
+    } else {
+        breakEvenResult.textContent = 'Please enter a valid number of bushels.';
+    }
+}
+
+// Add event listener for the calculate button
+calculateButton.addEventListener('click', calculateBreakEven);
