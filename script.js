@@ -1,6 +1,8 @@
-// Array to store all expenses
-const expenses = []
+// // Array to store all expenses
+// const expenses = []
 
+const savedExpenses = localStorage.getItem('expenses');
+const expenses = savedExpenses ? JSON.parse(savedExpenses) : [];
 // DOM element references
 const expenseForm = document.getElementById('expense-form');
 const expenseList = document.getElementById('expense-items');
@@ -8,6 +10,12 @@ const emptyMessage = document.getElementById('empty-message');
 const breakEvenResult = document.getElementById('break-even-result');
 const bushelInput = document.getElementById('bushel-amount');
 const calculateButton = document.getElementById('calculate-break-even');
+updateExpenseList();
+
+function savelocalExpenses() {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+    updateExpenseList();
+}
 
 // Event listener for form submission
 expenseForm.addEventListener('submit', (e) => {
@@ -21,6 +29,7 @@ expenseForm.addEventListener('submit', (e) => {
 
     // Add new expense to array
     expenses.push({name, amount, date, category});
+    savelocalExpenses();
 
     // Update the display
     updateExpenseList();
@@ -61,6 +70,7 @@ function updateExpenseList() {
                 if (confirmDelete) {
                     // Remove expense from array
                     expenses.splice(index, 1);
+                    savelocalExpenses();
                     // Update the display
                     updateExpenseList();
                 }
