@@ -1,8 +1,7 @@
-// // Array to store all expenses
-// const expenses = []
-
+// Array to store all expenses that is saved in local storage
 const savedExpenses = localStorage.getItem('expenses');
 const expenses = savedExpenses ? JSON.parse(savedExpenses) : [];
+
 // DOM element references
 const expenseForm = document.getElementById('expense-form');
 const expenseList = document.getElementById('expense-items');
@@ -12,6 +11,7 @@ const bushelInput = document.getElementById('bushel-amount');
 const calculateButton = document.getElementById('calculate-break-even');
 updateExpenseList();
 
+// Function to save expenses to local storage
 function savelocalExpenses() {
     localStorage.setItem('expenses', JSON.stringify(expenses));
     updateExpenseList();
