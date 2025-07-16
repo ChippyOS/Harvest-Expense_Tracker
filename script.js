@@ -1,6 +1,10 @@
-// Array to store all expenses that is saved in local storage
-const savedExpenses = localStorage.getItem('expenses');
-const expenses = savedExpenses ? JSON.parse(savedExpenses) : [];
+import { supabase } from './supabase.js';
+
+const expenses = [];
+
+// // Array to store all expenses that is saved in local storage
+// const savedExpenses = localStorage.getItem('expenses');
+// const expenses = savedExpenses ? JSON.parse(savedExpenses) : [];
 
 // DOM element references
 const expenseForm = document.getElementById('expense-form');
@@ -11,30 +15,39 @@ const bushelInput = document.getElementById('bushel-amount');
 const calculateButton = document.getElementById('calculate-break-even');
 updateExpenseList();
 
-// Function to save expenses to local storage
-function savelocalExpenses() {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
+
+async function loadExpenses() {
+    const { data, error } = await supabase.from('expenses').select('*');
+    if (error) { console.error(error); return; }
+    expenses.splice(0, expenses.length, ...data); // fill the array
     updateExpenseList();
 }
+  
+loadExpenses();
+
+  
+
+// // Function to save expenses to local storage
+// function savelocalExpenses() {
+//     localStorage.setItem('expenses', JSON.stringify(expenses));
+//     updateExpenseList();
+// }
 
 // Event listener for form submission
-expenseForm.addEventListener('submit', (e) => {
+expenseForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const newExpense = {
+        name:  document.getElementById('expense-name').value,
+        amount: parseFloat(document.getElementById('expense-amount').value),
+        date:  document.getElementById('expense-date').value,
+        category: document.getElementById('expense-category').value
+    };
 
-    // Get form input values
-    const name = document.getElementById('expense-name').value;
-    const amount = parseFloat(document.getElementById('expense-amount').value);
-    const date = document.getElementById('expense-date').value;
-    const category = document.getElementById('expense-category').value;
+    const { data, error } = await supabase.from('expenses').insert([newExpense]).select();
+    if (error) { console.error(error); return; }
 
-    // Add new expense to array
-    expenses.push({name, amount, date, category});
-    savelocalExpenses();
-
-    // Update the display
+    expenses.push(data[0]);       // keep the id Supabase returns
     updateExpenseList();
-
-    // Reset form fields
     expenseForm.reset();
 });
 
@@ -64,14 +77,23 @@ function updateExpenseList() {
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
             deleteButton.className = 'delete-btn';
-            deleteButton.addEventListener('click', () => {
+            deleteButton.addEventListener('click', async () => {
 
                 const confirmDelete = confirm('Are you sure you want to delete this expense?');
                 if (confirmDelete) {
-                    // Remove expense from array
+                    // remove from Supabase
+                    const { error } = await supabase
+                        .from('expenses')
+                        .delete()
+                        .eq('id', expense.id);   // expense.id comes from Supabase row
+
+                    if (error) {
+                        console.error(error);
+                        return;            // stop if DB delete failed
+                    }
+
+                    // remove locally and refresh UI
                     expenses.splice(index, 1);
-                    savelocalExpenses();
-                    // Update the display
                     updateExpenseList();
                 }
             });
