@@ -13,19 +13,69 @@ const emptyMessage = document.getElementById('empty-message');
 const breakEvenResult = document.getElementById('break-even-result');
 const bushelInput = document.getElementById('bushel-amount');
 const calculateButton = document.getElementById('calculate-break-even');
+const authBox = document.getElementById('auth-box');
+const logoutBtn = document.getElementById('logout');
+const emailInput = document.getElementById('email');
+const pwInput = document.getElementById('pw');
+const loginBtn = document.getElementById('login');
+const signupBtn = document.getElementById('signup');
+
 updateExpenseList();
 
+loginBtn.onclick = () => supabase.auth.signInWithPassword({
+    email: emailInput.value,
+    password: pwInput.value
+}).then(({ data, error }) => {
+    if (error) {
+        alert('Not a valid email or password');
+    }
+});
 
-async function loadExpenses() {
-    const { data, error } = await supabase.from('expenses').select('*');
+signupBtn.onclick = () => supabase.auth.signUp({
+    email: emailInput.value,
+    password: pwInput.value
+}).then(({ data, error }) => {
+    if (error) {
+        alert('Error signing up');
+    } else {
+        alert('Check your email to confirm your account');
+    }
+});
+
+
+
+supabase.auth.onAuthStateChange((_event, session) => {
+    const userId = session?.user?.id || null;
+    const loggedIn = !!session;
+    authBox.classList.toggle('hide', loggedIn);
+    logoutBtn.classList.toggle('hide', !loggedIn);
+    loadExpenses(userId);
+});
+
+logoutBtn.onclick = () => supabase.auth.signOut();
+
+
+async function loadExpenses(userId) {
+    if (!userId) {
+        // no user = show nothing
+        expenses.splice(0);
+        updateExpenseList();
+        return;
+    }
+    const { data, error } = await supabase
+        .from('expenses')
+        .select('*')
+    .eq('user_id', userId);
     if (error) { console.error(error); return; }
-    expenses.splice(0, expenses.length, ...data); // fill the array
+    expenses.splice(0, expenses.length, ...data);
     updateExpenseList();
 }
-  
-loadExpenses();
 
-  
+supabase.auth.getSession().then(({ data: { session } }) => {
+    const userId = session?.user?.id || null;
+    loadExpenses(userId);
+});
+
 
 // // Function to save expenses to local storage
 // function savelocalExpenses() {
@@ -36,11 +86,19 @@ loadExpenses();
 // Event listener for form submission
 expenseForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        alert('Log in first.');
+        return;
+    }
+
     const newExpense = {
-        name:  document.getElementById('expense-name').value,
+        name: document.getElementById('expense-name').value,
         amount: parseFloat(document.getElementById('expense-amount').value),
-        date:  document.getElementById('expense-date').value,
-        category: document.getElementById('expense-category').value
+        date: document.getElementById('expense-date').value,
+        category: document.getElementById('expense-category').value,
+        user_id: user.id
     };
 
     const { data, error } = await supabase.from('expenses').insert([newExpense]).select();
