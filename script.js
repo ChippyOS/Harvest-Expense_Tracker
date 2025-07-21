@@ -14,7 +14,8 @@ const emptyMessage = document.getElementById('empty-message');
 const breakEvenResult = document.getElementById('break-even-result');
 const bushelInput = document.getElementById('bushel-amount');
 const calculateButton = document.getElementById('calculate-break-even');
-const authBox = document.getElementById('auth-box');
+const authBox = document.querySelector('.auth-box');
+const authBox2 = document.querySelector('.auth-box2');
 const logoutBtn = document.getElementById('logout');
 const emailInput = document.getElementById('email');
 const pwInput = document.getElementById('pw');
@@ -57,12 +58,17 @@ supabase.auth.onAuthStateChange((_event, session) => {
     const userId = session?.user?.id || null;
     const loggedIn = !!session;
     authBox.classList.toggle('hide', loggedIn);
-    logoutBtn.classList.toggle('hide', !loggedIn);
+    authBox2.classList.toggle('hide', !loggedIn);
     loadExpenses(userId);
 });
 
 // Handle logout button click by signing out
-logoutBtn.onclick = () => supabase.auth.signOut();
+logoutBtn.onclick = () => {
+    const confirmLogout = confirm('Are you sure you want to log out?');
+    if (confirmLogout) {
+        supabase.auth.signOut();
+    }
+};
 
 // Load expenses for the current user from Supabase database
 async function loadExpenses(userId) {
