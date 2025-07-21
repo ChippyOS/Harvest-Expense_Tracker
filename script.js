@@ -1,3 +1,4 @@
+// Import supabase client for database interactions
 import { supabase } from './supabase.js';
 
 const expenses = [];
@@ -20,8 +21,10 @@ const pwInput = document.getElementById('pw');
 const loginBtn = document.getElementById('login');
 const signupBtn = document.getElementById('signup');
 
+
 updateExpenseList();
 
+// Event listener for login button
 loginBtn.onclick = () => supabase.auth.signInWithPassword({
     email: emailInput.value,
     password: pwInput.value
@@ -31,6 +34,7 @@ loginBtn.onclick = () => supabase.auth.signInWithPassword({
     }
 });
 
+// Event listener for signup button
 signupBtn.onclick = () => supabase.auth.signUp({
     email: emailInput.value,
     password: pwInput.value
@@ -44,6 +48,11 @@ signupBtn.onclick = () => supabase.auth.signUp({
 
 
 
+// Listen for authentication state changes (login/logout)
+// When auth state changes:
+// - Get user ID if logged in, null if not
+// - Update UI visibility based on login state
+// - Load expenses for the current user
 supabase.auth.onAuthStateChange((_event, session) => {
     const userId = session?.user?.id || null;
     const loggedIn = !!session;
@@ -52,9 +61,10 @@ supabase.auth.onAuthStateChange((_event, session) => {
     loadExpenses(userId);
 });
 
+// Handle logout button click by signing out
 logoutBtn.onclick = () => supabase.auth.signOut();
 
-
+// Load expenses for the current user from Supabase database
 async function loadExpenses(userId) {
     if (!userId) {
         // no user = show nothing
