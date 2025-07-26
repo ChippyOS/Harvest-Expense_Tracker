@@ -54,13 +54,15 @@ signupBtn.onclick = () => supabase.auth.signUp({
 // - Get user ID if logged in, null if not
 // - Update UI visibility based on login state
 // - Load expenses for the current user
-supabase.auth.onAuthStateChange((_event, session) => {
-    const userId = session?.user?.id || null;
+supabase.auth.onAuthStateChange((_, session) => {
     const loggedIn = !!session;
-    authBox.classList.toggle('hide', loggedIn);
-    authBox2.classList.toggle('hide', !loggedIn);
-    loadExpenses(userId);
-});
+    loginBtn.classList.toggle('hide', loggedIn);
+    signupBtn.classList.toggle('hide', loggedIn);
+    logoutBtn.classList.toggle('hide', !loggedIn);
+    emailInput.classList.toggle('hide', loggedIn);
+    pwInput.classList.toggle('hide', loggedIn);
+    loadExpenses(session?.user?.id || null);
+  });
 
 // Handle logout button click by signing out
 logoutBtn.onclick = () => {

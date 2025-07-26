@@ -1,113 +1,111 @@
-/* CSS Custom Properties (variables) for consistent theming */
 :root {
-    --light-grey: #f5f6f7;
-    --dark-blue: #0a0a23;
-    --fcc-blue: #1b1b32;
-    --farm-green: #1b3321;
-    --farm-red: #331b1b;
-    --light-yellow: #fecc4c;
-    --dark-yellow: #feac32;
-    --light-pink: #ffadad;
-    --dark-red: #850000;
-    --light-green: #acd157;
-    --white: #f9f9f9;
-}
+    --primary: #1b3321;
+    --accent: #fecc4c;
+    --bg: #f9f9f9;
+    --text: #333;
+    --card: #fff;
+  }
   
-/* Base styles for the body */
-body {
-    font-family: "Lato", Helvetica, Arial, sans-serif;
-    font-size: 18px;
-    background-color: var(--farm-green);
-    color: var(--light-grey);
-}
-
-/* Heading styles */
-h1 {
-    text-align: center;
-}
-
-h2 {
-    text-align: center;
-}
-
-/* Main container styles */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 2px solid var(--light-grey);
-    border-radius: 8px;
-    min-height: 100vh;
+  * {
     box-sizing: border-box;
-}
-
-.auth-box {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 15px;
-    border: 2px solid var(--white);
-    border-radius: 8px;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  .header {
+    background: var(--primary);
+    color: #fff;
+    padding: 1rem;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-.auth-box2 {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 15px;
-    border: 2px solid var(--white);
-}
-
-
-/* Expense list section spacing */
-#expense-list {
-    margin-top: 100px;
-}
-
-/* Utility classes for showing/hiding elements */
-.show {
-    display: block;
-}
+    justify-content: space-between;
+    align-items: center;
+  }
   
-.hide {
+  .auth-controls input {
+    margin-right: .5rem;
+    padding: .5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .btn {
+    background: var(--accent);
+    border: none;
+    padding: .5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .full {
+    width: 100%;
+    margin-top: .5rem;
+  }
+  
+  .hide {
     display: none;
-}
-
-/* Empty state message styling */
-.empty-message {
-    margin-top: 400px;
-}
-
-/* Break-even section styling */
-#break-even {
-    text-align: center;
-    margin-top: 500px;
-}
-
-/* Individual expense item styling */
-.expense-item {
-    box-sizing: border-box;
-    padding: 8px;
-    margin-bottom: 5px;
-    background-color: var(--white);
-    border-radius: 10px;
-    color: var(--farm-green);
-    margin: 5px;
-}
+  }
   
-
-.delete-btn {
-    border: 1px solid var(--dark-red);
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-left: 20px;
-}
-
-.delete-btn:hover {
-    background-color: var(--dark-red);
-}
+  .grid {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .card {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .card h2 {
+    margin-bottom: .75rem;
+    font-weight: 600;
+  }
+  
+  .card input,
+  .card select {
+    width: 100%;
+    padding: .5rem;
+    margin-bottom: .5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .items .expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    padding: .75rem;
+    margin-bottom: .5rem;
+    border-radius: 4px;
+  }
+  
+  .delete-btn {
+    border: 1px solid #e74c3c;
+    padding: .25rem .25rem;
+    border-radius: 4px; 
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+  
+  .delete-btn:hover {
+    background: #e74c3c;
+    color: #fff;
+  }
+  
+  .empty {
+    text-align: center;
+    color: #777;
+    margin-top: 1rem;
+  }
+  

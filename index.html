@@ -1,76 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta tags for character encoding and responsive viewport -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link to external stylesheet -->
-    <link rel="stylesheet" href="styles.css" />
-    <title>Harvest Math</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Harvest Expense Tracker</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet"/>
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
-    <main>
-        <h1>Harvest-Expense Tracker</h1>
+  <header class="header">
+    <h1>Harvest Expense Tracker</h1>
+    <div class="auth-controls">
+      <input id="email" type="email" placeholder="Email"/>
+      <input id="pw" type="password" placeholder="Password"/>
+      <button id="login" class="btn">Login</button>
+      <button id="signup" class="btn">Sign Up</button>
+      <!-- <button id="logout" class="btn hide">Log Out</button> -->
+      <button id="logout" class="btn">Log Out</button>
+    </div>
+  </header>
 
-        <div class="auth-box">
-            <input id="email" placeholder="email">
-            <input id="pw" type="password" placeholder="password">
-            <button id="login">Login</button>
-            <button id="signup">Sign Up</button>
-        </div>
-        
-        <div class="auth-box2">
-            <button id="logout">Log out</button>
-        </div>
-        
-        <div class="container">
-            <!-- Expense input form section -->
-            <h2>Enter Expense</h2>
-            <form id="expense-form">
-                <!-- Form fields for expense details -->
-                <label for="expense-name">Expense Name:</label>
-                <input type="text" id="expense-name" required>
+  <main class="grid">
+    <!-- Add Expense -->
+    <section class="card">
+      <h2>Add Expense</h2>
+      <form id="expense-form">
+        <input id="expense-name" type="text" placeholder="Name" required/>
+        <input id="expense-amount" type="number" step="0.01" placeholder="Amount ($)" required/>
+        <input id="expense-date" type="date" required/>
+        <select id="expense-category" required>
+          <option value="">Category…</option>
+          <option>Seeds</option>
+          <option>Fertilizer</option>
+          <option>Equipment</option>
+          <option>Labor</option>
+          <option>Other</option>
+        </select>
+        <button type="submit" class="btn full">Add</button>
+      </form>
+    </section>
 
-                <label for="expense-amount">Amount ($):</label>
-                <input type="number" id="expense-amount" step="0.01" min="0" required>
+    <!-- Expense List -->
+    <section class="card">
+      <h2>Expenses</h2>
+      <div id="expense-items" class="items"></div>
+      <p id="empty-message" class="empty">No expenses yet.</p>
+    </section>
 
-                <label for="expense-date">Date:</label>
-                <input type="date" id="expense-date"required>
-
-                <!-- Dropdown for expense categories -->
-                <label for="expense-category">Category:</label>
-                <select id="expense-category" required>
-                    <option value="">Select a category</option>
-                    <option value="seeds">Seeds</option>
-                    <option value="fertilizer">Fertilizer</option>
-                    <option value="equipment">Equipment</option>
-                    <option value="labor">Labor</option>
-                    <option value="other">Other</option>
-                </select>
-
-                <button type="submit">Add Expense</button>
-            </form>
-
-            <!-- Expense list display section -->
-            <section id="expense-list">
-                <h2>Expense List</h2>
-                <div id="expense-items"></div>
-                <!-- Empty state message -->
-                <div id="empty-message" class="empty-message show">
-                    <h2>Expense List is empty</h2>
-                </div>
-            </section>
-
-            <!-- Break-even calculation section -->
-            <section id="break-even">
-                <label for="bushels">Enter Bushel Amount:</label>
-                <input type="number" id="bushel-amount" min="0" required>
-                <button id="calculate-break-even" type="button">Calculate</button>
-                <div id="break-even-result"></div>
-            </section>
-        </div>
-    </main>
-    <!-- Link to JavaScript file -->
-    <script type="module" src="script.js"></script>
+    <!-- Break‐Even -->
+    <section class="card">
+      <h2>Break‑Even Calculator</h2>
+      <input id="bushel-amount" type="number" placeholder="Bushels" min="0"/>
+      <button id="calculate-break-even" class="btn full">Calculate</button>
+      <p id="break-even-result"></p>
+    </section>
+  </main>
 </body>
 </html>
