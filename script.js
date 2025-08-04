@@ -114,7 +114,7 @@ expenseForm.addEventListener('submit', async (e) => {
     const newExpense = {
         name: document.getElementById('expense-name').value,
         amount: parseFloat(document.getElementById('expense-amount').value),
-        date: document.getElementById('expense-date').value,
+        date: document.getElementById('expense-date').value || emptyDate.value,
         category: document.getElementById('expense-category').value,
         user_id: user.id
     };
@@ -127,7 +127,15 @@ expenseForm.addEventListener('submit', async (e) => {
     expenseForm.reset();
 });
 
-// Function to update the expense list display
+/**
+ * Render the `expenses` array into the UI.
+ *
+ * 1. Clears any previously rendered items.
+ * 2. Shows / hides the "No expenses yet" message depending on state.
+ * 3. For each expense row it creates a DOM element displaying the
+ *    expense details and wires up a Delete button that removes the
+ *    record from Supabase and then from the local array.
+ */
 function updateExpenseList() {
     // Clear current list
     expenseList.innerHTML = '';
@@ -178,7 +186,14 @@ function updateExpenseList() {
     }
 }
 
-// Function to calculate break-even price
+/**
+ * Compute and display the break-even price per bushel.
+ *
+ * Break-even = total expenses / number of bushels.
+ * The result is rounded to 3 decimal places and rendered in the UI.
+ * If the user has not entered a positive bushel count, an error
+ * message is shown instead.
+ */
 function calculateBreakEven() {
     const totalExpenses = expenses.reduce((total, expense) => total + expense.amount, 0);
     const bushels = parseFloat(bushelInput.value);
