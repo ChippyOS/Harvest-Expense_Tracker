@@ -1,3 +1,5 @@
+// HarvestMath front-end logic: authentication, expense CRUD, and break-even math.
+// Imports the Supabase client used for auth and database calls.
 // Import supabase client for database interactions
 import { supabase } from './supabase.js';
 
@@ -23,6 +25,7 @@ const loginBtn = document.getElementById('login');
 const signupBtn = document.getElementById('signup');
 
 
+// Initial render so the "empty" message is correct before any data loads
 updateExpenseList();
 
 // Event listener for login button
@@ -114,7 +117,7 @@ expenseForm.addEventListener('submit', async (e) => {
     const newExpense = {
         name: document.getElementById('expense-name').value,
         amount: parseFloat(document.getElementById('expense-amount').value),
-        date: document.getElementById('expense-date').value || emptyDate.value,
+        date: document.getElementById('expense-date').value,
         category: document.getElementById('expense-category').value,
         user_id: user.id
     };
@@ -143,9 +146,7 @@ function updateExpenseList() {
     // Handle empty state
     if (expenses.length === 0) {
         emptyMessage.classList.remove('hide');
-        emptyMessage.classList.add('show');
     } else {
-        emptyMessage.classList.remove('show');
         emptyMessage.classList.add('hide');
         // Create and append expense items
         expenses.forEach((expense, index) => {

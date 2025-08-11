@@ -6,11 +6,13 @@
   <title>Harvest Expense Tracker</title>
   <link rel="stylesheet" href="styles.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet"/>
+  <!-- App script (ES module) wires up auth, expenses, and calculator -->
   <script type="module" src="script.js" defer></script>
 </head>
 <body>
   <header class="header">
     <h1>Harvest Expense Tracker</h1>
+    <!-- Inputs and buttons used by script.js via element IDs -->
     <div class="auth-controls">
       <input id="email" type="email" placeholder="Email"/>
       <input id="pw" type="password" placeholder="Password"/>

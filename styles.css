@@ -1,3 +1,4 @@
+/* Theme tokens */
 :root {
     --primary: #1b3321;
     --accent: #fecc4c;
@@ -6,6 +7,7 @@
     --card: #fff;
   }
   
+  /* Global reset */
   * {
     box-sizing: border-box;
     margin: 0;
@@ -13,11 +15,13 @@
     font-family: 'Poppins', sans-serif;
   }
   
+  /* Base page styling */
   body {
     background: var(--bg);
     color: var(--text);
   }
   
+  /* Header and auth bar */
   .header {
     background: var(--primary);
     color: #fff;
@@ -27,6 +31,7 @@
     align-items: center;
   }
   
+  /* Auth inputs */
   .auth-controls input {
     margin-right: .5rem;
     padding: .5rem;
@@ -34,6 +39,7 @@
     border: 1px solid #ccc;
   }
   
+  /* Buttons */
   .btn {
     background: var(--accent);
     border: none;
@@ -43,15 +49,18 @@
     font-weight: 500;
   }
   
+  /* Full-width helper */
   .full {
     width: 100%;
     margin-top: .5rem;
   }
   
+  /* Utility: toggle visibility */
   .hide {
     display: none;
   }
   
+  /* Responsive grid layout */
   .grid {
     display: grid;
     gap: 1rem;
@@ -59,6 +68,7 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
   
+  /* Card container */
   .card {
     background: var(--card);
     border-radius: 8px;
@@ -66,11 +76,13 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   
+  /* Card title */
   .card h2 {
     margin-bottom: .75rem;
     font-weight: 600;
   }
   
+  /* Form controls */
   .card input,
   .card select {
     width: 100%;
@@ -80,6 +92,7 @@
     border-radius: 4px;
   }
   
+  /* Expense list item */
   .items .expense-item {
     display: flex;
     justify-content: space-between;
@@ -90,6 +103,7 @@
     border-radius: 4px;
   }
   
+  /* Delete button */
   .delete-btn {
     border: 1px solid #e74c3c;
     padding: .25rem .25rem;
@@ -103,6 +117,7 @@
     color: #fff;
   }
   
+  /* Empty-state text */
   .empty {
     text-align: center;
     color: #777;
