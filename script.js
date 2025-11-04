@@ -25,8 +25,8 @@ const loginBtn = document.getElementById('login');
 const signupBtn = document.getElementById('signup');
 
 
-// Initial render so the "empty" message is correct before any data loads
-updateExpenseList();
+// Initial load: show any locally saved expenses before auth resolves
+loadLocalExpenses();
 
 // Event listener for login button
 loginBtn.onclick = () => supabase.auth.signInWithPassword({
@@ -78,9 +78,8 @@ logoutBtn.onclick = () => {
 // Load expenses for the current user from Supabase database
 async function loadExpenses(userId) {
     if (!userId) {
-        // no user = show nothing
-        expenses.splice(0);
-        updateExpenseList();
+        // Not logged in: load from local storage
+        loadLocalExpenses();
         return;
     }
     const { data, error } = await supabase
@@ -98,35 +97,59 @@ supabase.auth.getSession().then(({ data: { session } }) => {
 });
 
 
-// // Function to save expenses to local storage
-// function savelocalExpenses() {
-//     localStorage.setItem('expenses', JSON.stringify(expenses));
-//     updateExpenseList();
-// }
+// Local storage helpers for offline mode
+function loadLocalExpenses() {
+    const savedExpenses = localStorage.getItem('expenses');
+    expenses.splice(0);
+    if (savedExpenses) {
+        try {
+            const parsed = JSON.parse(savedExpenses);
+            if (Array.isArray(parsed)) {
+                expenses.push(...parsed);
+            }
+        } catch (e) {
+            console.error('Failed to parse local expenses', e);
+        }
+    }
+    updateExpenseList();
+}
+
+function saveLocalExpenses() {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+    updateExpenseList();
+}
 
 // Event listener for form submission
 expenseForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-        alert('Log in first.');
-        return;
-    }
 
-    const newExpense = {
+    const newExpenseBase = {
         name: document.getElementById('expense-name').value,
         amount: parseFloat(document.getElementById('expense-amount').value),
         date: document.getElementById('expense-date').value,
-        category: document.getElementById('expense-category').value,
-        user_id: user.id
+        category: document.getElementById('expense-category').value
     };
 
-    const { data, error } = await supabase.from('expenses').insert([newExpense]).select();
-    if (error) { console.error(error); return; }
+    if (user) {
+        const newExpense = { ...newExpenseBase, user_id: user.id };
+        const { data, error } = await supabase.from('expenses').insert([newExpense]).select();
+        if (error) {
+            console.error(error);
+            // Fallback to local save if remote insert fails
+            expenses.push(newExpenseBase);
+            saveLocalExpenses();
+        } else {
+            expenses.push(data[0]);
+            updateExpenseList();
+        }
+    } else {
+        // Offline/local mode
+        expenses.push(newExpenseBase);
+        saveLocalExpenses();
+    }
 
-    expenses.push(data[0]);       // keep the id Supabase returns
-    updateExpenseList();
     expenseForm.reset();
 });
 
@@ -166,20 +189,23 @@ function updateExpenseList() {
 
                 const confirmDelete = confirm('Are you sure you want to delete this expense?');
                 if (confirmDelete) {
-                    // remove from Supabase
-                    const { error } = await supabase
-                        .from('expenses')
-                        .delete()
-                        .eq('id', expense.id);   // expense.id comes from Supabase row
-
-                    if (error) {
-                        console.error(error);
-                        return;            // stop if DB delete failed
+                    // If this expense is from Supabase (has id and user_id), delete remotely first
+                    if (expense.id && expense.user_id) {
+                        const { error } = await supabase
+                            .from('expenses')
+                            .delete()
+                            .eq('id', expense.id);
+                        if (error) {
+                            console.error(error);
+                            return; // stop if DB delete failed
+                        }
+                        expenses.splice(index, 1);
+                        updateExpenseList();
+                    } else {
+                        // Local-only expense: remove and persist locally
+                        expenses.splice(index, 1);
+                        saveLocalExpenses();
                     }
-
-                    // remove locally and refresh UI
-                    expenses.splice(index, 1);
-                    updateExpenseList();
                 }
             });
             expenseItem.appendChild(deleteButton);
